@@ -5,6 +5,7 @@ from PlotSetup import Colors, Markers
 PickEmploymentGroups = {
     'Name': 'Employment',
     'Periodicity': 'M',
+    'PoP': False,    # Whether calculate period on period percentage change    
     'Groups': [
         [
             {'ID': 'LNS11000000', 
@@ -118,6 +119,7 @@ PickEmploymentGroups = {
 PickProductivityGroups = {
     'Name': 'Employment',
     'Periodicity': 'Q',
+    'PoP': False,    # Whether calculate period on period percentage change    
     'Groups': [ 
         # Group 1
         [
@@ -215,6 +217,162 @@ PickProductivityGroups = {
             'Unit': 'quarter over quarter (%)',
             'Color': 'b',
             'Marker': Markers[8],
+            'XLim': None,
+            'YLim': None,
+            'YAxisPos': 'left',
+            'Curve': None}
+        ]
+    ]
+}
+
+PickCPIPPIGroups = {
+    'Name': 'CPI, PPI Price Index',
+    'Periodicity': 'M',
+    'PoP': False,    # Whether calculate period on period percentage change
+    'Groups': [ 
+        # Group 1: CPI
+        [
+            {'ID': 'CUUR0000SA0', 
+            'EnglishName': 'CPI for All Urban Consumers (CPI-U) 1982-84=100 ',
+            'ChineseName': '城市消费者的消费者价格指数',
+            'Unit': 'None',
+            'Color': Colors[0],
+            'Marker': Markers[0],
+            'XLim': None,
+            'YLim': None,
+            'YAxisPos': 'left',
+            'Curve': None},
+
+            {'ID': 'CWUR0000SA0', 
+            'EnglishName': 'CPI for Urban Wage Earners and Clerical Workers (CPI-W) 1982-84=100',
+            'ChineseName': '城市工资收入者和文职人员的消费者价格指数',
+            'Unit': 'None',
+            'Color': Colors[1],
+            'Marker': Markers[1],
+            'XLim': None,
+            'YLim': None,
+            'YAxisPos': 'left',
+            'Curve': None},      
+
+            {'ID': 'CUUR0000SA0L1E', 
+            'EnglishName': 'CPI-U/Less Food and Energy',
+            'ChineseName': '城市消费者价格指数不含食品和能源',
+            'Unit': 'None',
+            'Color': Colors[2],
+            'Marker': Markers[2],
+            'XLim': None,
+            'YLim': None,
+            'YAxisPos': 'left',
+            'Curve': None},
+
+            {'ID': 'CWUR0000SA0L1E', 
+            'EnglishName': 'CPI-W/Less Food and Energy',
+            'ChineseName': '城市工资收入者和文职人员消费者价格指数不含食品和能源',
+            'Unit': 'None',
+            'Color': Colors[3],
+            'Marker': Markers[3],
+            'XLim': None,
+            'YLim': None,
+            'YAxisPos': 'left',
+            'Curve': None},                
+        ],
+
+        # Group 2: PPI
+        [
+            {'ID': 'WPUFD4', 
+            'EnglishName': 'PPI Final Demand',
+            'ChineseName': '最终需求生产者价格指数', # 到手价
+            'Unit': 'None',
+            'Color': Colors[0],
+            'Marker': Markers[0],
+            'XLim': None,
+            'YLim': None,
+            'YAxisPos': 'left',
+            'Curve': None},  
+
+            {'ID': 'WPUFD49104', 
+            'EnglishName': 'PPI Final Demand less foods and energy',
+            'ChineseName': '最终需求生产者价格指数不含食品和能源',
+            'Unit': 'None',
+            'Color': Colors[1],
+            'Marker': Markers[1],
+            'XLim': None,
+            'YLim': None,
+            'YAxisPos': 'left',
+            'Curve': None},
+
+            {'ID': 'WPUFD49207', 
+            'EnglishName': 'PPI Finished Goods 1982=100',
+            'ChineseName': '最终产品生产者价格指数', # 成品价
+            'Unit': 'None',
+            'Color': Colors[3],
+            'Marker': Markers[3],
+            'XLim': None,
+            'YLim': None,
+            'YAxisPos': 'left',
+            'Curve': None},
+
+            {'ID': 'EIUIR', 
+            'EnglishName': 'Imports - All Commodities',
+            'ChineseName': '进口 - 所有商品',
+            'Unit': 'None',
+            'Color': Colors[4],
+            'Marker': Markers[4],
+            'XLim': None,
+            'YLim': None,
+            'YAxisPos': 'left',
+            'Curve': None},
+
+            {'ID': 'EIUIQ', 
+            'EnglishName': 'Exports - All Commodities',
+            'ChineseName': '出口 - 所有商品',
+            'Unit': 'None',
+            'Color': Colors[5],
+            'Marker': Markers[8],
+            'XLim': None,
+            'YLim': None,
+            'YAxisPos': 'left',
+            'Curve': None}
+        ]
+    ]
+}
+
+
+PickCompensationGroups = {
+    'Name': 'Compensation',
+    'Periodicity': 'Q',
+    'PoP': False,    # Whether calculate period on period percentage change
+    'Groups': [ 
+        # Group 1: CPI
+        [
+            {'ID': 'CIU1010000000000A', 
+            'EnglishName': 'Employment Cost Index (ECI) Civilian',
+            'ChineseName': '就业成本指数 (ECI) - 民用',
+            'Unit': 'None',
+            'Color': Colors[0],
+            'Marker': Markers[0],
+            'XLim': None,
+            'YLim': None,
+            'YAxisPos': 'left',
+            'Curve': None},
+
+            {'ID': 'CIU2010000000000A', 
+            'EnglishName': 'ECI Private',
+            'ChineseName': '就业成本指数 (ECI) - 私营部门',
+            'Unit': 'None',
+            'Color': Colors[1],
+            'Marker': Markers[1],
+            'XLim': None,
+            'YLim': None,
+            'YAxisPos': 'left',
+            'Curve': None},      
+
+            {'ID': 'CIU2020000000000A', 
+            'EnglishName': 'ECI Private Wage and Salaries',
+            'ChineseName': '就业成本指数 (ECI) - 私营部门工资和薪金',
+            'Unit': 'None',
+            'Color': Colors[2],
+            'Marker': Markers[2],
             'XLim': None,
             'YLim': None,
             'YAxisPos': 'left',
