@@ -29,7 +29,7 @@ BEA_API_URL = 'https://apps.bea.gov/api/data/'
 def BLSShowDataSeries(picksGroups : list, 
                    startYear:str='2023', 
                    endYear:str='2024', 
-                   language:str='CHN', 
+                   language:str='CHN',   # language for legend, label is always english
                    pop:str='None') :     # period over period
 
     fig, axes = plt.subplots(len(picksGroups['Groups']), 1, figsize=(12, 8))
@@ -53,11 +53,12 @@ def BLSShowDataSeries(picksGroups : list,
             "seriesid": seriesIDs,
             "startyear": startYear if pop == 'None' else str(int(startYear) - 1), # if need to perform period over period then start from an earlier year.
             "endyear": endYear,
-            "registrationkey": BLS_API_URL
+            "registrationkey": BLS_API_KEY
         }
 
         response = requests.post(BLS_API_URL, json=dataRequestInfo, headers=headers)
         json_data = response.json()
+        print(f"Data request status: { json_data['status'] }, {response.text}")
         series_data = json_data['Results']['series']
 
         # load and show data series in current group
@@ -95,7 +96,7 @@ def BLSShowDataSeries(picksGroups : list,
 
             df.set_index('date', inplace=True)
 
-            label=group[seriesID]['ChineseName'] if language == 'CHN' else group[seriesID]['EnglishName'] 
+            label = group[seriesID]['EnglishName'] 
             # Plot
             if group[seriesID]['YAxisPos'] == 'left':
                 group[seriesID]['Curve'], = axes[groupidx].plot(df.index, df['value'], marker=group[seriesID]['Marker'], linestyle='-', color=group[seriesID]['Color'], label=label)
@@ -119,13 +120,16 @@ def BLSShowDataSeries(picksGroups : list,
                 ylimrightmax = np.max(df['value']) if ylimrightmax < np.min(df['value']) else ylimrightmax            
 
         # Combine Legend Handles and Labels from Both Axes, legend text comes from the label property of each plot. 
-        lines_1, labels_1 = axes[groupidx].get_legend_handles_labels()
+
+        """ lines_1, labels_1 = axes[groupidx].get_legend_handles_labels()
         lines_2, labels_2 = twinaxes[groupidx].get_legend_handles_labels()
         lines = lines_1 + lines_2
         labels = labels_1 + labels_2
-        axes[groupidx].legend(lines, labels, loc='upper left')
+        axes[groupidx].legend(lines, labels, loc='upper left') """
 
         curves = [series['Curve'] for series in group]
+        legends = [series['ChineseName'] if language == 'CHN' else series['EnglishName'] for series in group]
+        axes[groupidx].legend(curves, legends, loc='upper left')
         mplcursors.cursor(curves, hover=True) # enable cursor
 
     # Add a title and show the plot
@@ -264,8 +268,8 @@ def main():
     display(list_of_sets)
     list_of_params = beaapi.get_parameter_list(BEA_API_KEY, 'NIPA')
     display(list_of_params) """
-    # search_data = beaapi.search_metadata('Gross domestic', BEA_API_KEY)
-    bea_tbl = beaapi.get_data(BEA_API_KEY, datasetname='NIPA', TableName='T10101', Frequency='Q', Year='2021,2022,2023,2024')
+    # search_data = beaapi.search_metadata('Gross domestic', BEA_API_KEY) useful code in this comment block:
+    """     bea_tbl = beaapi.get_data(BEA_API_KEY, datasetname='NIPA', TableName='T10101', Frequency='Q', Year='2021,2022,2023,2024')
  
     df = pd.DataFrame(bea_tbl)
     df = df[df['LineNumber']==1]
@@ -282,17 +286,17 @@ def main():
     surve, = axes.plot(df.index, df['value'], marker='*', linestyle='-', color='b', label='GDP')
     axes.set_xticks(df.index)
     axes.set_xticklabels(df['xtick'])
-    plt.show()
+    plt.show() """
 
 
     # BEAShowDataSeries(PickGDPGroups)
-    """     BLSShowDataSeries(PickEmploymentGroups)
+    BLSShowDataSeries(PickEmploymentGroups)
     BLSShowDataSeries(PickProductivityGroups)
     BLSShowDataSeries(PickCPIPPIGroups)
     BLSShowDataSeries(PickCPIPPIGroups, pop='YoY')
     BLSShowDataSeries(PickCPIPPIGroups, pop='MoM')
     
-    BLSShowDataSeries(PickCompensationGroups) """
+    BLSShowDataSeries(PickCompensationGroups)
 
     
 if __name__ == "__main__":
