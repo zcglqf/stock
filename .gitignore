@@ -2,3 +2,4 @@
 /__pycache__/
 /beaapi_data/
 test*.py
+!test_*.py
