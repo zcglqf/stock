@@ -1,0 +1,4 @@
+/.git/
+/__pycache__/
+/beaapi_data/
+test*.py
